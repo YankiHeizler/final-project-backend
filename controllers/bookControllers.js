@@ -23,6 +23,7 @@ exports.createBook = asyncHandler(async (req, res) => {
 
 exports.updateBook = asyncHandler(async (req, res) => {
   const { _id } = req.params;
+  const updatedDetails = req.body
   const updateBook = await Book.findByIdAndUpdate(_id, updatedDetails, {
     new: true,
   });
