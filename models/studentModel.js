@@ -9,7 +9,7 @@ const studentSchema = new mongoose.Schema({
     studPhone: String,
     studEmail: {
         type:String,
-        required: [true, 'must have an email'] //как сделать чтобы поле было обязательным и выдавало ошибку если не заполнят
+        required: true,
     },
     studLogin: String,
     studPass: String
