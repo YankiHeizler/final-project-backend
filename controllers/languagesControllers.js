@@ -31,7 +31,7 @@ exports.updateLanguages = asyncHandler (async (req, res) => {
 
 exports.deleteLanguages = asyncHandler(async (req, res) =>  {
     const {_id} = req.params
-    const deleteLanguages = await Languages.findByIdAndUpdate(_id)
+    const deleteLanguages = await Languages.findByIdAndDelete(_id)
     res.status(200).json({
         status: 'duccess',
         deleteLanguages
