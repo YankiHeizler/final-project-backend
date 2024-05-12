@@ -22,6 +22,7 @@ exports.createLectors = asyncHandler(async(req, res) => {
 
 exports.updateLectors = asyncHandler (async (req, res) => {
     const {_id} = req.params
+    const updatedDetails = req.body
     const updateLectors = await Lectors.findByIdAndUpdate(_id, updatedDetails, {new: true})
     res.status(200).json({
         status: 'success',
