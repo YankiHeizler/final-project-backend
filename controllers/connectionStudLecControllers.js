@@ -22,6 +22,7 @@ exports.createConnectionStudLec = asyncHandler(async(req, res) => {
 
 exports.updateConnectionStudLec = asyncHandler (async (req, res) => {
     const {_id} = req.params
+    const updatedDetails = req.body
     const updateConnectionStudLec = await ConnectionStudLec.findByIdAndUpdate(_id, updatedDetails, {new: true})
     res.status(200).json({
         status: 'success',
