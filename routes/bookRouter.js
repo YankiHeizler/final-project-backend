@@ -9,8 +9,8 @@ router.route('/')
     .post(bookControllers.createBook)
 
 
-// router.route('/:_id')
-//     .put(bookControllers.updateBook)
-//     .delete(bookControllers.deleteBook) 
+router.route('/:_id')
+    .put(bookControllers.updateBook)
+    .delete(bookControllers.deleteBook) 
 
 module.exports = router
