@@ -31,7 +31,7 @@ exports.updateStudent = asyncHandler (async (req, res) => {
 
 exports.deleteLessonsStudLec = asyncHandler(async (req, res) =>  {
     const {_id} = req.params
-    const deleteLessonsStudLec = await LessonsStudLec.findByIdAndUpdate(_id)
+    const deleteLessonsStudLec = await LessonsStudLec.findByIdAndDelete(_id)
     res.status(200).json({
         status: 'duccess',
         deleteLessonsStudLec

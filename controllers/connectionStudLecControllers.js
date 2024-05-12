@@ -31,7 +31,7 @@ exports.updateConnectionStudLec = asyncHandler (async (req, res) => {
 
 exports.deleteConnectionStudLec = asyncHandler(async (req, res) =>  {
     const {_id} = req.params
-    const deleteConnectionStudLec = await ConnectionStudLec.findByIdAndUpdate(_id)
+    const deleteConnectionStudLec = await ConnectionStudLec.findByIdAndDelete(_id)
     res.status(200).json({
         status: 'duccess',
         deleteConnectionStudLec

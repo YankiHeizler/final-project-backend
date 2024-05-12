@@ -35,7 +35,7 @@ exports.updateBook = asyncHandler(async (req, res) => {
 
 exports.deleteBook = asyncHandler(async (req, res) => {
   const { _id } = req.params;
-  const deleteBook = await Book.findByIdAndUpdate(_id);
+  const deleteBook = await Book.findByIdAndDelete(_id);
   res.status(200).json({
     status: "duccess",
     deleteBook,
