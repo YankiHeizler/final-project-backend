@@ -6,7 +6,7 @@ const ConnectionStudLecSchema = new mongoose.Schema({
     connStudyLevels: {type:{type:String, enum:['בסיסית','ביניים','מתקדמת']},},
     connLang: {type: mongoose.Schema.ObjectId, ref: 'Language'},
     connDate: Date,
-    connWaysStudy: {type:[{type:String, enum:['קורסים','סטודנט של האוניברסיטה','תואר ראשון','תואר שני','דוֹקטוֹרָט']}]},
+    connWaysStudy: {type:[{type:String, enum:['וואטסאפ','טלגרם','זום','טלפון','פרונטלי','אחרת']}]},
     connLessons: [{type: mongoose.Schema.ObjectId, ref: 'LessonStudLec'}],
     connBooks: [{type: mongoose.Schema.ObjectId, ref: 'Book'}]
 })
