@@ -11,14 +11,14 @@ exports.getStudent = asyncHandler(async (req, res) => {
     })
 })
 
-exports.createStudent = asyncHandler(async(req, res) => {
-    const student  = req.body
-    const newStudent = await Student.create(student)
-    res.status(200).json({
-        status:'success',
-        newStudent
-    })
-})
+// exports.createStudent = asyncHandler(async(req, res) => {
+//     const student  = req.body
+//     const newStudent = await Student.create(student)
+//     res.status(200).json({
+//         status:'success',
+//         newStudent
+//     })
+// })
 
 exports.updateStudent = asyncHandler (async (req, res) => {
     const {_id} = req.params
