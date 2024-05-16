@@ -7,7 +7,7 @@ const Lector = require('../models/lectorModel')
 
 const signToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {
-      expiresIn: "10s"
+      expiresIn: "1m"
     });
   };
   
@@ -73,7 +73,7 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
     if (!lecEmail ||!lecPass)
      return next(new AppError(403,'Request details are missing'))
     
-    const lec = await Lector.findOne({email})
+    const lec = await Lector.findOne({lecEmail})
     if (lec)
       return next(new AppError(403,'lector already in the database'))
 
