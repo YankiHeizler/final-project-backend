@@ -1,7 +1,7 @@
 const express = require('express')
 
 const lectorsControllers = require('./../controllers/lectorsControllers')
-
+const aoutController = require('./../controllers/aoutController')
 const router = express.Router()
 
 
@@ -12,5 +12,12 @@ router.route('/')
 router.route('/:_id')
     .put(lectorsControllers.updateLectors)
     .delete(lectorsControllers.deleteLectors)
+
+router.route('/register')
+    .post(aoutController.lecRegister)
+    
+router.route('/login')
+    .post(aoutController.lecLogin)
+
 
 module.exports = router
