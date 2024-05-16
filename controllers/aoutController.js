@@ -24,10 +24,9 @@ const createSendToken = (user, statusCode, res) => {
     res.cookie('jwt', token, cookieOptions);
     res.status(statusCode).json({
       status: 'success',
-      token,
-      user
-    });
-  };
+      token
+      });
+   };
 
 exports.studRegister = asyncHandler(async(req, res, next)=>{
     const {studEmail, studPass} = req.body.userDetails
@@ -48,7 +47,7 @@ exports.studLogin = asyncHandler(async (req, res, next)=>{
     if(!studEmail || !studPass) 
       return next(new AppError(403, 'Email or password is missing1'))
         
-    const st = await Student.findOne({email})
+    const st = await Student.findOne({email}).select('+studPass')
     if (! st || !await  st.checkPassword(studPass, st.studPass) )
         return next(new AppError(403, 'Email or password is not correct '))
 
@@ -60,7 +59,7 @@ exports.lecLogin = asyncHandler(async (req, res, next)=>{
     if(! lecEmail || ! lecPass) 
       return next(new AppError(403, 'Email or password is missing1'))
 
-    const lec = await Lector.findOne({lecEmail})
+    const lec = await Lector.findOne({lecEmail}).select('+lecPass')
     if (! lec || !await  lec.checkPassword(lecPass, lec.lecPass) )
       return next(new AppError(403, 'Email or password is not correct '))
 
