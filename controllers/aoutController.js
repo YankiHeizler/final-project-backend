@@ -7,7 +7,7 @@ const Lector = require('../models/lectorModel')
 
 const signToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {
-      expiresIn: "1m"
+      expiresIn: "3h"
     });
   };
   
