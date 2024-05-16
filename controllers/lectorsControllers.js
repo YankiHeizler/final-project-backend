@@ -11,7 +11,14 @@ exports.getLectors = asyncHandler(async (req, res) => {
     })
 })
 
-// 
+exports.createLectors = asyncHandler(async(req, res) => {
+    const lectors  = req.body
+    const newLectors = await Lectors.create(lectors)
+    res.status(200).json({
+        status:'success',
+        newLectors
+    })
+})
 
 exports.updateLectors = asyncHandler (async (req, res) => {
     const {_id} = req.params
