@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 const lectorSchema = new mongoose.Schema({
     lecFName: String,
@@ -15,8 +16,24 @@ const lectorSchema = new mongoose.Schema({
     lecWaysStudy: {type:[{type:String, enum:['וואטסאפ','טלגרם','זום','טלפון','פרונטלי','אחרת']}],default:'זום'},
     lecMotherLang: {type: mongoose.Schema.ObjectId, ref: 'Language'},
     lecLogin: String,
-    lecPass: String
+    lecPass: String,
+    lecEmail: String
 })
+
+
+lectorSchema.pre('save', async function(next){
+    if(!this.isModified('password'))
+    return next()
+    const salt = await bcrypt.genSalt(12)
+    this.password = await bcrypt.hash(this.password, salt)
+    next()
+})
+lectorSchema.methods.checkPassword = async function(password,hashedPassword){
+    console.log(hashedPassword)
+    const checkPasword = await bcrypt.compare(password, hashedPassword)
+    return checkPasword
+}
+
 
 const Lector = mongoose.model('Lector', lectorSchema)
 
