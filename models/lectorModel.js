@@ -16,13 +16,18 @@ const lectorSchema = new mongoose.Schema({
     lecWaysStudy: {type:[{type:String, enum:['וואטסאפ','טלגרם','זום','טלפון','פרונטלי','אחרת']}],default:'זום'},
     lecMotherLang: {type: mongoose.Schema.ObjectId, ref: 'Language'},
     lecLogin: String,
-    lecPass: String,
+    lecPass:{
+        type: String,
+        required:[true, 'Must be a password'],
+        minLength: 8,
+        select: false
+    },
     lecEmail: String
 })
 
 
 lectorSchema.pre('save', async function(next){
-    if(!this.isModified('password'))
+    if(!this.isModified('lecPass'))
     return next()
     const salt = await bcrypt.genSalt(12)
     this.lecPass = await bcrypt.hash(this.lecPass, salt)

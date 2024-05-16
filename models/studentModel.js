@@ -13,12 +13,16 @@ const studentSchema = new mongoose.Schema({
         required: true,
     },
     studLogin: String,
-    studPass: String
-})
+    studPass:{
+        type: String,
+        required:[true, 'Must be a password'],
+        minLength: 8,
+        select: false
+    }})
 
 
 studentSchema.pre('save', async function(next){
-    if(!this.isModified('password'))
+    if(!this.isModified('studPass'))
     return next()
     const salt = await bcrypt.genSalt(12)
     this.studPass = await bcrypt.hash(this.studPass, salt)
