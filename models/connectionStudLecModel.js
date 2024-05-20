@@ -4,7 +4,7 @@ const ConnectionStudLecSchema = new mongoose.Schema({
     studID: {type: mongoose.Schema.ObjectId, ref: 'Student'},
     lecID:  {type: mongoose.Schema.ObjectId, ref: 'Lector'},
     connStudyLevels: {type:{type:String, enum:['בסיסית','ביניים','מתקדמת']},},
-    connLang: {type: mongoose.Schema.ObjectId, ref: 'Language'},
+    connLang: {type:String, enum:['שוודית','סומלית','סינית','רוסית','עברית','אנגלית']},
     connDate: Date,
     connWaysStudy: {type:[{type:String, enum:['וואטסאפ','טלגרם','זום','טלפון','פרונטלי','אחרת']}]},
     connLessons: [{type: mongoose.Schema.ObjectId, ref: 'LessonStudLec'}],

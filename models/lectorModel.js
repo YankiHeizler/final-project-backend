@@ -12,9 +12,9 @@ const lectorSchema = new mongoose.Schema({
     lecStartIntDate: Date,
     lecRate: Number,
     lecEduc: {type:[{type:String, enum:['ללא תואר','קורסים','סטודנט של האוניברסיטה','תואר ראשון','תואר שני','דוֹקטוֹרָט']}]},
-    lecLangs: [{type: mongoose.Schema.ObjectId, ref: 'Language'}],
+    lecLangs: {type:[{type:String, enum:['שוודית','סומלית','סינית','רוסית','עברית','אנגלית']}]},
     lecWaysStudy: {type:[{type:String, enum:['וואטסאפ','טלגרם','זום','טלפון','פרונטלי','אחרת']}],default:'זום'},
-    lecMotherLang: {type: mongoose.Schema.ObjectId, ref: 'Language'},
+    lecMotherLang: {type:String, enum:['שוודית','סומלית','סינית','רוסית','עברית','אנגלית']},
     lecLogin: String,
     lecPass:{
         type: String,
@@ -27,7 +27,11 @@ const lectorSchema = new mongoose.Schema({
         required: true,
     },
     lecPhone: String,
-    lecTimeTable: Array
+    lecTimeTable: [{
+        day:{type:Number,enum:[1,2,3,4,5]},
+        workinghours:[{type:String,enum:['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00']}]
+        }] 
+    
 })
 
 
