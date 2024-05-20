@@ -3,8 +3,9 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getLectors = asyncHandler(async (req, res) => {
-    const { filter } = req.query
+    const  filter  = req.query
     const lectors = await Lectors.find(filter)
+    .populate('lecLangs lecMotherLang')
     res.status(200).json({
         status:'success',
         lectors

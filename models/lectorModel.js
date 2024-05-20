@@ -11,7 +11,7 @@ const lectorSchema = new mongoose.Schema({
     lecBirthDate: Date,
     lecStartIntDate: Date,
     lecRate: Number,
-    lecEduc: {type:[{type:String, enum:['קורסים','סטודנט של האוניברסיטה','תואר ראשון','תואר שני','דוֹקטוֹרָט']}]},
+    lecEduc: {type:[{type:String, enum:['ללא תואר','קורסים','סטודנט של האוניברסיטה','תואר ראשון','תואר שני','דוֹקטוֹרָט']}]},
     lecLangs: [{type: mongoose.Schema.ObjectId, ref: 'Language'}],
     lecWaysStudy: {type:[{type:String, enum:['וואטסאפ','טלגרם','זום','טלפון','פרונטלי','אחרת']}],default:'זום'},
     lecMotherLang: {type: mongoose.Schema.ObjectId, ref: 'Language'},
@@ -22,7 +22,12 @@ const lectorSchema = new mongoose.Schema({
         minLength: 8,
         select: false
     },
-    lecEmail: String
+    lecEmail: {
+        type:String,
+        required: true,
+    },
+    lecPhone: String,
+    lecTimeTable: Array
 })
 
 
