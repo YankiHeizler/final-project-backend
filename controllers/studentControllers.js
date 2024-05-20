@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getStudent = asyncHandler(async (req, res) => {
-    const { filter } = req.query
+    const  filter  = req.query
     const student = await Student.find(filter)
     res.status(200).json({
         status:'success',

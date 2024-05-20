@@ -3,8 +3,9 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getConnectionStudLec = asyncHandler(async (req, res) => {
-    const { filter } = req.query
+    const  filter  = req.query
     const connectionStudLec = await ConnectionStudLec.find(filter)
+    .populate('connLang connLessons connBooks').select("-__v");
     res.status(200).json({
         status:'success',
         connectionStudLec
