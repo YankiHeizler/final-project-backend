@@ -6,7 +6,7 @@ const lectorSchema = new mongoose.Schema({
     lecLName: String,
     lecTZ: String,
     lecFoto: String, 
-    lecSex: {type: String, enum: ['ז', 'נ']},
+    lecSex: {type: String, enum: ['זכר', 'נקבה']},
     lecStudyLevels:{type:[{type:String, enum:['בסיסית','ביניים','מתקדמת']}], default:['בסיסית','ביניים','מתקדמת']},
     lecBirthDate: Date,
     lecStartIntDate: Date,
@@ -27,10 +27,12 @@ const lectorSchema = new mongoose.Schema({
         required: true,
     },
     lecPhone: String,
-    lecTimeTable: [{
+    lecTimeTable: {type:
+        [{
         day:{type:Number,enum:[1,2,3,4,5]},
         workinghours:[{type:String,enum:['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00']}]
-        }] 
+        }]
+    } 
     
 })
 
