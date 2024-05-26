@@ -13,6 +13,7 @@ exports.getLessonsStudLec = asyncHandler(async (req, res) => {
 
 exports.createLessonsStudLec = asyncHandler(async(req, res) => {
     const lessonsStudLec  = req.body
+    console.log(lessonsStudLec);
     const newLessonsStudLec = await LessonsStudLec.create(lessonsStudLec)
     res.status(200).json({
         status:'success',
