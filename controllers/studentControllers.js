@@ -34,7 +34,7 @@ exports.deleteStudent = asyncHandler(async (req, res) =>  {
     const {_id} = req.params
     const deleteStudent = await Student.findByIdAndDelete(_id)
     res.status(200).json({
-        status: 'duccess',
+        status: 'success',
         deleteStudent
     })
 })
