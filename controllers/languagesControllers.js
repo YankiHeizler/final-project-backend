@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getLanguages = asyncHandler(async (req, res) => {
-    const { filter } = req.query
+    const  filter  = req.query
     const languages = await Languages.find(filter)
     res.status(200).json({
         status:'success',
@@ -34,7 +34,7 @@ exports.deleteLanguages = asyncHandler(async (req, res) =>  {
     const {_id} = req.params
     const deleteLanguages = await Languages.findByIdAndDelete(_id)
     res.status(200).json({
-        status: 'duccess',
+        status: 'success',
         deleteLanguages
     })
 })
