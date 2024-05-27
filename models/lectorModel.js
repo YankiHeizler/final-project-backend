@@ -87,16 +87,16 @@ const lectorSchema = new mongoose.Schema({
             day:{
                 type:Number,
                 enum:[1,2,3,4,5],
-                required: [true, "day is requred"]
+                required: [true, "day is requred"] //requred doesn't work now
             },
             workinghours:[{
                 type:String,
                 enum:['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00',
                         '14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'],
-                required: [true, "workinghours is requred"]
+                required: [true, "workinghours is requred"] //requred doesn't work now
             }]
         }], 
-        required: [true, "lecTimeTable is requred"]}
+        required: [true, "lecTimeTable is requred"]} //requred doesn't work now
       
 })
 
