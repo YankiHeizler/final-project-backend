@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getStudentTimeTable = asyncHandler(async (req, res) => {
-    const _id = req.user?._id || '664f96a3fa1ba02c114765b0'
+    const _id = req.user?._id || '664f96a3fa1ba02c114765b0' //we need to do exports.protect = asyncHandler in aottController correctly
 
     const optionalHours = {
         '06:00': 0, '07:00': 1, '08:00': 2, '09:00': 3, '10:00': 4, '11:00': 5, '12:00': 6, '13:00': 7,
@@ -32,34 +32,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
         .populate('connLessons lecID')
         .select("-__v -studID -connBooks");
 
-    // const StudentTimeTable = [
-    //     {
-    //         lecID: {
-    //             lecFName: 'daniel',
-    //             lecLName: 'kalfa'
-    //         },
-    //         connLang: 'english',
-    //         connLessons: [
-    //             {
-    //                 lessDate: new Date('2024-05-26T00:00:00.000Z'),
-    //                 lessTime: '06:00'
-    //             },
-    //             {
-    //                 lessDate: new Date('2024-05-26T00:00:00.000Z'),
-    //                 lessTime: '09:00'
-    //             },
-    //             {
-    //                 lessDate: new Date('2024-05-27T00:00:00.000Z'),
-    //                 lessTime: '11:00'
-    //             },
-    //             {
-    //                 lessDate: new Date('2024-05-28T00:00:00.000Z'),
-    //                 lessTime: '21:00'
-    //             }
-    //         ]
-    //     }
-    // ]
-
+    
     for (let i = 0; i < StudentTimeTable.length; i++) {
         for (let j = 0; j < StudentTimeTable[i].connLessons.length; j++) {
             console.log({ i, j });
@@ -80,6 +53,5 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
         status: 'success',
         dates,
         lessons,
-        // StudentTimeTable
     })
 })

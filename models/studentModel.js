@@ -2,13 +2,26 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
 const studentSchema = new mongoose.Schema({
-    studFName: {type: String, required: [true, "studFName is requred"]},
-    studLName: {type: String, required: [true, "studLName is requred"]},
-    studTZ: {type: String, 
+    studFName: {
+        type: String,
+        required: [true, "studFName is requred"]
+    },
+    studLName: {
+        type: String,
+        required: [true, "studLName is requred"]
+    },
+    studTZ: {
+        type: String, 
         required: [true, "studTZ is requred"], 
         unique: true},
-    studFoto: {type: String, required: [true, "studFoto is requred"]},
-    studBirthDate: {type: Date, required: [true, "lecBirthDate is requred"]},
+    studFoto: {
+        type: String,
+        required: [true, "studFoto is requred"]
+    },
+    studBirthDate: {
+        type: Date,
+        required: [true, "lecBirthDate is requred"]
+    },
     studPhone: {
         type: String,
         required: [true, "lecPhone is requred"]
@@ -23,7 +36,8 @@ const studentSchema = new mongoose.Schema({
         required:[true, 'Must be a password'],
         minLength: 8,
         select: false
-    }})
+    }
+})
 
 
 studentSchema.pre('save', async function(next){
