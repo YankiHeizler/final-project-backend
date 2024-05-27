@@ -4,16 +4,14 @@ const bcrypt = require("bcryptjs");
 const AppError = require('./../AppError')
 
 exports.getConnectionStudLec = asyncHandler(async (req, res) => {
-  const filter = req.query;
-  const connectionStudLec = await ConnectionStudLec.find(filter)
-    .populate("connLang connLessons connBooks")
-    .select("-__v");
-  res.status(200).json({
-    status: "success",
-    connectionStudLec,
-  });
-});
-
+    const  filter  = req.query
+    const connectionStudLec = await ConnectionStudLec.find(filter)
+    .populate('connLang connLessons connBooks lecID studID').select("-__v");
+    res.status(200).json({
+        status:'success',
+        connectionStudLec
+    })
+})
 exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
   const connLang = req.body.connLang;
   const studID = req.body.studID;
