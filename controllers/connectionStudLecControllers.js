@@ -1,41 +1,63 @@
-const ConnectionStudLec = require('./../models/connectionStudLecModel')
-const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcryptjs')
+const ConnectionStudLec = require("./../models/connectionStudLecModel");
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcryptjs");
+const AppError = require('./../AppError')
 
 exports.getConnectionStudLec = asyncHandler(async (req, res) => {
-    const  filter  = req.query
-    const connectionStudLec = await ConnectionStudLec.find(filter)
-    .populate('connLang connLessons connBooks').select("-__v");
-    res.status(200).json({
-        status:'success',
-        connectionStudLec
-    })
-})
+  const filter = req.query;
+  const connectionStudLec = await ConnectionStudLec.find(filter)
+    .populate("connLang connLessons connBooks")
+    .select("-__v");
+  res.status(200).json({
+    status: "success",
+    connectionStudLec,
+  });
+});
 
-exports.createConnectionStudLec = asyncHandler(async(req, res) => {
-    const connectionStudLec  = req.body
-    const newConnectionStudLec = await ConnectionStudLec.create(connectionStudLec)
-    res.status(200).json({
-        status:'success',
-        newConnectionStudLec
-    })
-})
+exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
+  const connLang = req.body.connLang;
+  const studID = req.body.studID;
+  const lecID = req.body.lecID;
 
-exports.updateConnectionStudLec = asyncHandler (async (req, res) => {
-    const {_id} = req.params
-    const updatedDetails = req.body
-    const updateConnectionStudLec = await ConnectionStudLec.findByIdAndUpdate(_id, updatedDetails, {new: true})
-    res.status(200).json({
-        status: 'success',
-        updateConnectionStudLec
-    })
-})
+  const connection = await ConnectionStudLec.findOne({
+    studID, lecID, connLang
+  });
+  if (connection) {
+    return next(new AppError(403, "connectionStudLec already in the database"));
+  }
+  if (req.isStudent === false){
+    console.log('go away teacher');
+  }
+  const newConnectionStudLec = await ConnectionStudLec.create(
+    {connectionStudLec: req.body}
+  );
+  res.status(200).json({
+    status: "success",
+    newConnectionStudLec,
+  });
+});
 
-exports.deleteConnectionStudLec = asyncHandler(async (req, res) =>  {
-    const {_id} = req.params
-    const deleteConnectionStudLec = await ConnectionStudLec.findByIdAndDelete(_id)
-    res.status(200).json({
-        status: 'duccess',
-        deleteConnectionStudLec
-    })
-})
+exports.updateConnectionStudLec = asyncHandler(async (req, res) => {
+  const { _id } = req.params;
+  const updatedDetails = req.body;
+  const updateConnectionStudLec = await ConnectionStudLec.findByIdAndUpdate(
+    _id,
+    updatedDetails,
+    { new: true }
+  );
+  res.status(200).json({
+    status: "success",
+    updateConnectionStudLec,
+  });
+});
+
+exports.deleteConnectionStudLec = asyncHandler(async (req, res) => {
+  const { _id } = req.params;
+  const deleteConnectionStudLec = await ConnectionStudLec.findByIdAndDelete(
+    _id
+  );
+  res.status(200).json({
+    status: "duccess",
+    deleteConnectionStudLec,
+  });
+});

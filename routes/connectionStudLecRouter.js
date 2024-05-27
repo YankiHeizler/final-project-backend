@@ -1,18 +1,18 @@
-const express = require('express')
+const express = require("express");
+const aoutController = require("./../controllers/aoutController")
 
-const connectionStudLecControllers = require('./../controllers/connectionStudLecControllers')
+const connectionStudLecControllers = require("./../controllers/connectionStudLecControllers");
 
-const router = express.Router()
+const router = express.Router();
 
+router
+  .route("/")
+  .get(connectionStudLecControllers.getConnectionStudLec)
+  .post(aoutController.protect,connectionStudLecControllers.createConnectionStudLec);
 
+router
+  .route("/:_id")
+  .put(aoutController.protect,connectionStudLecControllers.updateConnectionStudLec)
+  .delete(connectionStudLecControllers.deleteConnectionStudLec);
 
-
-router.route('/')
-    .get(connectionStudLecControllers.getConnectionStudLec)
-    .post(connectionStudLecControllers.createConnectionStudLec)
-    
-router.route('/:_id')
-    .put(connectionStudLecControllers.updateConnectionStudLec)
-    .delete(connectionStudLecControllers.deleteConnectionStudLec)
-
-module.exports = router
+module.exports = router;

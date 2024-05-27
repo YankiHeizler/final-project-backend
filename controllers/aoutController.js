@@ -82,12 +82,28 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
 
 
 
-exports.protect = asyncHandler(async(req,res, next)=>{
-    const token = req.headers.authorization.split(' ')[1];
-    if(!token) return next(new AppError(403, 'Please login '))
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-    if(!decoded) return next(new AppError(403, 'Please login '))
+exports.protect = asyncHandler(async (req, res, next) => {
+  const token = req.headers.cookie.split('=')[1]
+  if (!token) return next(new AppError(403, 'Please login '))
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+  if (!decoded) return next(new AppError(403, 'Please login '))
+  const {id} = decoded
+  let user = await Lector.findById(id)
+  if (!user) 
+    user = await Student.findById(id)
+  if (!user)
+    return next(new AppError(400, 'Please register'))
+  req.user = user
+  if (user.studLogin)
+    req.isStudned = true;
+  else
+    req.isStudned = false;
 
-    console.log(token)
-    next()
-  })
+  if (req.isStudned)
+    console.log('hello student');
+  else
+    console.log('bad teacher');
+  next()
+})
+
+
