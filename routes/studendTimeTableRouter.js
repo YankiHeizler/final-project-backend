@@ -1,9 +1,12 @@
 const express = require('express')
+
 const studentTimeTableControllers = require('../controllers/studentTimeTableControllers')
+const aoutController = require("./../controllers/aoutController")
+
 const router = express.Router()
 
     
 router.route('/')
-    .get(studentTimeTableControllers.getStudentTimeTable)
+    .get(aoutController.protect, studentTimeTableControllers.getStudentTimeTable); 
 
 module.exports = router
