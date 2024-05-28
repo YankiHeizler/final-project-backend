@@ -4,14 +4,12 @@ const ConnectionStudLecSchema = new mongoose.Schema({
     studID: {
         type: mongoose.Schema.ObjectId,
         ref: 'Student',
-        required: [true, "studID is requred"], 
-        unique: true
+        required: [true, "studID is requred"]
     },
     lecID: {
         type: mongoose.Schema.ObjectId,
         ref: 'Lector', 
-        required: [true, "lecID is requred"], 
-        unique: true
+        required: [true, "lecID is requred"]
     },
     connLang: {
         type:String,
