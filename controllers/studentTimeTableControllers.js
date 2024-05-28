@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 exports.getStudentTimeTable = asyncHandler(async (req, res) => {
     const _id = req.user?._id || '664f96a3fa1ba02c114765b0' //we need to do exports.protect = asyncHandler in aottController correctly
 
+
     const optionalHours = {
         '06:00': 0, '07:00': 1, '08:00': 2, '09:00': 3, '10:00': 4, '11:00': 5, '12:00': 6, '13:00': 7,
         '14:00': 8, '15:00': 9, '16:00': 10, '17:00': 11, '18:00': 12, '19:00': 13, '20:00': 14, '21:00': 15
@@ -32,7 +33,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
         .populate('connLessons lecID')
         .select("-__v -studID -connBooks");
 
-    
+
     for (let i = 0; i < StudentTimeTable.length; i++) {
         for (let j = 0; j < StudentTimeTable[i].connLessons.length; j++) {
             console.log({ i, j });
@@ -43,8 +44,10 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
 
             lessons[dateIndex][hourIndex] = {
                 connLang: StudentTimeTable[i].connLang,
+                backgroundColor: StudentTimeTable[i].connLang ? 'green' : 'grey',
                 lecName: `${StudentTimeTable[i].lecID.lecFName} ${StudentTimeTable[i].lecID.lecLName}`,
                 hour
+
             }
         }
     }

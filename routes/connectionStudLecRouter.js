@@ -8,11 +8,11 @@ const router = express.Router();
 router
   .route("/")
   .get(connectionStudLecControllers.getConnectionStudLec)
-  .post(aoutController.protect, connectionStudLecControllers.createConnectionStudLec); //aoutController.protect,
+  .post(aoutController.protect, connectionStudLecControllers.createConnectionStudLec); 
 
 router
   .route("/:_id")
-  .put(aoutController.protect, connectionStudLecControllers.updateConnectionStudLec) //aoutController.protect,
+  .put(aoutController.protect, connectionStudLecControllers.updateConnectionStudLec) 
   .delete(connectionStudLecControllers.deleteConnectionStudLec);
 
 module.exports = router;
