@@ -14,7 +14,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
     const optionalDates = {}
     const lessons = Array(5).fill(0).map(arr =>
         Array(16).fill(0).map((cell, i) => {
-            return { hour: Object.keys(optionalHours)[i] }
+            return { hour: Object.keys(optionalHours)[i], backgroundColor:'grey' }
         }))
     const dates = []
 
@@ -44,7 +44,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
 
             lessons[dateIndex][hourIndex] = {
                 connLang: StudentTimeTable[i].connLang,
-                backgroundColor: StudentTimeTable[i].connLang ? 'green' : 'grey',
+                backgroundColor: 'green',
                 lecName: `${StudentTimeTable[i].lecID.lecFName} ${StudentTimeTable[i].lecID.lecLName}`,
                 hour
 
