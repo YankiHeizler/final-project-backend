@@ -13,13 +13,15 @@ exports.getConnectionStudLec = asyncHandler(async (req, res) => {
     })
 })
 exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
-  const connLang = req.body.connLang;
-  const studID = req.body.studID;
-  const lecID = req.body.lecID;
+  const connLang = req.body.userDetails.connLang;
+  const studID = req.body.userDetails.studID;
+  const lecID = req.body.userDetails.lecID;
 
   const connection = await ConnectionStudLec.findOne({
     studID, lecID, connLang
   });
+  console.log(connection);
+
   if (connection) {
     return next(new AppError(403, "connectionStudLec already in the database"));
   }
@@ -27,8 +29,9 @@ exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
     console.log('go away teacher');
   }
   const newConnectionStudLec = await ConnectionStudLec.create(
-    {connectionStudLec: req.body}
+    {studID, lecID, connLang}
   );
+  console.log('b');
   res.status(200).json({
     status: "success",
     newConnectionStudLec,
