@@ -20,18 +20,16 @@ exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
   const connection = await ConnectionStudLec.findOne({
     studID, lecID, connLang
   });
-  console.log(connection);
-
   if (connection) {
     return next(new AppError(403, "connectionStudLec already in the database"));
   }
   if (req.isStudent === false){
-    console.log('go away teacher');
+    console.log('You do not have permission');
   }
+
   const newConnectionStudLec = await ConnectionStudLec.create(
     {studID, lecID, connLang}
   );
-  console.log('b');
   res.status(200).json({
     status: "success",
     newConnectionStudLec,
