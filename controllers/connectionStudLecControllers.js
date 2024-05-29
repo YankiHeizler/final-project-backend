@@ -13,10 +13,12 @@ exports.getConnectionStudLec = asyncHandler(async (req, res) => {
     })
 })
 exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
-    // const connLang = req.body.userDetails.connLang;
-    // const studID = req.body.userDetails.studID;
-    // const lecID = req.body.userDetails.lecID;
-    const { userDetails } = req.body
+    const connLang = req.body.userDetails.connLang;
+    const studID = res.id;
+    const lecID = req.body.userDetails.lecID;
+
+    const  userDetails  = {connLang,studID,lecID}
+
     const connection = await ConnectionStudLec.findOne({
         studID: userDetails.studID,
         lecID: userDetails.lecID,

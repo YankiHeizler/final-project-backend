@@ -5,6 +5,9 @@ const {promisify} = require('util')
 const Student = require('./../models/studentModel')
 const Lector = require('../models/lectorModel')
 
+const nodemailer = require('nodemailer');
+const sendEmail = require('./../send_Email')
+
 const signToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {
       expiresIn: "3h"
@@ -78,9 +81,15 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
 
     const newLector = await Lector.create(req.body.userDetails);
     createSendToken(newLector, 201 , res)
+
+    await sendEmail({
+      to: lecEmail,
+      subject: 'Welcome to Our Website',
+      text: '',
+      html: `<h1>Welcome lector ${lecNema}</h1><p>Thank you for registering to LearnLink!</p>`
+      })
+
 })
-
-
 
 exports.protect = asyncHandler(async (req, res, next) => {
   const token = req.headers.cookie.split('=')[1]
@@ -103,7 +112,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
     console.log('hello student');
   else
     console.log('bad teacher');
+  res.id = id
   next()
 })
-
-
