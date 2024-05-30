@@ -112,6 +112,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
     console.log('hello student');
   else
     console.log('bad teacher');
-  res.id = id
+    req.id = id //to change on req
   next()
 })
