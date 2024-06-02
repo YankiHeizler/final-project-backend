@@ -5,7 +5,7 @@ const studentLessTimeTableControllers = require("./../controllers/studentLessTim
 
 const router = express.Router();
 
-router.route('/:connectionID')
+router.route('/:connectionID') //connectionID is _id of MongoDB for connection, we get it after click on connection in screen befor
     .get(aoutController.protect, studentLessTimeTableControllers.getLessStudentTimeTable);
 
 module.exports = router

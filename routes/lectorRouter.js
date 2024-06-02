@@ -4,6 +4,8 @@ const lectorsControllers = require('./../controllers/lectorsControllers')
 const aoutController = require('./../controllers/aoutController')
 const router = express.Router()
 
+// const multer = require('multer')
+
 
 router.route('/')
     .get(lectorsControllers.getLectors)
