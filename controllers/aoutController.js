@@ -81,7 +81,6 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
 
     const newLector = await Lector.create(req.body.userDetails);
     createSendToken(newLector, 201 , res)
-
     await sendEmail({
       to: lecEmail,
       subject: 'Welcome to Our Website',
