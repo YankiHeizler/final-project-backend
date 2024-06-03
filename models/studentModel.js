@@ -14,8 +14,9 @@ const studentSchema = new mongoose.Schema({
         type: String, 
         required: [true, "studTZ is requred"], 
         unique: true},
-    studFoto: String,
     
+    studFoto: String,
+
     studBirthDate: {
         type: Date,
         required: [true, "lecBirthDate is requred"]

@@ -7,7 +7,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(connectionStudLecControllers.getConnectionStudLec)
+  .get(aoutController.protect, connectionStudLecControllers.getConnectionStudLec)
   .post(aoutController.protect, connectionStudLecControllers.createConnectionStudLec); 
 
 router

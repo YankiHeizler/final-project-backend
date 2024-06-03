@@ -87,7 +87,6 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
       text: '',
       html: `<h1>Welcome lector ${lecNema}</h1><p>Thank you for registering to LearnLink!</p>`
       })
-
 })
 
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -110,7 +109,9 @@ exports.protect = asyncHandler(async (req, res, next) => {
   if (req.isStudned)
     console.log('hello student');
   else
-    console.log('bad teacher');
+    // console.log('bad teacher');
     req.id = id //to change on req
+    console.log('end of aoutcontroller')
+    console.log(req.id)
   next()
 })
