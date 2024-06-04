@@ -55,6 +55,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
             
             if (dateIndex!=undefined && hourIndex!=undefined) {
             lessons[dateIndex][hourIndex] = {                    
+                lessID: StudentTimeTable[i].connLessons[j]._id,
                 connLang: StudentTimeTable[i].connLang,
                 backgroundColor: 'orange',
                 lecName: `${StudentTimeTable[i].lecID.lecFName} ${StudentTimeTable[i].lecID.lecLName}`,

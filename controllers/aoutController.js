@@ -81,12 +81,20 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
 
     const newLector = await Lector.create(req.body.userDetails);
     createSendToken(newLector, 201 , res)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 72359c20ac24e065e27ce1e3802667b0f9a04161
     await sendEmail({
       to: lecEmail,
       subject: 'Welcome to Our Website',
       text: '',
       html: `<h1>Welcome lector ${lecNema}</h1><p>Thank you for registering to LearnLink!</p>`
       })
+<<<<<<< HEAD
+=======
+
+>>>>>>> 72359c20ac24e065e27ce1e3802667b0f9a04161
 })
 
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -109,9 +117,9 @@ exports.protect = asyncHandler(async (req, res, next) => {
   if (req.isStudned)
     console.log('hello student');
   else
-    // console.log('bad teacher');
+   
     req.id = id //to change on req
-    console.log('end of aoutcontroller')
-    console.log(req.id)
+    
   next()
+ 
 })

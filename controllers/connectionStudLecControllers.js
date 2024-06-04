@@ -56,6 +56,23 @@ exports.updateConnectionStudLec = asyncHandler(async (req, res) => {
     });
 });
 
+exports.addLesson = asyncHandler(async (req, res) => {
+    console.log('sababa')
+    const id = connectionID
+    const newLessID = req.newLessID
+
+    const updateConnectionStudLec = await ConnectionStudLec.findByIdAndUpdate(
+        { _id: id },
+        { $push: { connLessons: newLessID } },
+        { new: true }
+    );
+    res.status(200).json({
+        status: "success",
+        updateConnectionStudLec
+    });
+    console.log('sababa')
+});
+
 exports.deleteConnectionStudLec = asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const deleteConnectionStudLec = await ConnectionStudLec.findByIdAndDelete(
