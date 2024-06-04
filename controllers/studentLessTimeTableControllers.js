@@ -65,6 +65,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
 
             if (dateIndex!=undefined && hourIndex!=undefined) {
             lessons[dateIndex][hourIndex] = {
+                lessID: StudentLessTimeTable[i]._id == connectionID ? StudentLessTimeTable[i].connLessons[j]._id : 'Null',
                 hour,
                 backgroundColor: StudentLessTimeTable[i]._id == connectionID ? 'green' : 'grey',
                 status: StudentLessTimeTable[i]._id == connectionID ? 'already scheduled' : 'unavailable'

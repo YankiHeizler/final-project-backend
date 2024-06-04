@@ -1,4 +1,5 @@
 const LessonsStudLec = require('./../models/lessonStudLecModel')
+
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
@@ -11,14 +12,22 @@ exports.getLessonsStudLec = asyncHandler(async (req, res) => {
     })
 })
 
-exports.createLessonsStudLec = asyncHandler(async(req, res) => {
-    const lessonsStudLec  = req.body
-    console.log(lessonsStudLec);
-    const newLessonsStudLec = await LessonsStudLec.create(lessonsStudLec)
-    res.status(200).json({
-        status:'success',
-        newLessonsStudLec
-    })
+exports.createLessonsStudLec = asyncHandler(async(req, res, next) => {
+    
+    const lessDate  = req.body.lessDate 
+    const lessTime = req.body.lessTime
+    const lessMessage = req.body.lessMessage
+    
+    
+    const newLessonsStudLec = await LessonsStudLec.create({lessDate, lessTime, lessMessage})
+    req.newLessID=newLessonsStudLec._id
+    // res.status(200).json({
+    //     status:'success',
+    //     newLessonsStudLec,
+    //     newLessID
+    // })
+    
+    next()
 })
 
 exports.updateStudent = asyncHandler (async (req, res) => {
