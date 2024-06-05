@@ -108,7 +108,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
     req.isStudned = false;
    
   req.id = id //to change on req
-  console.log(id)
+  
   
   next()
  
