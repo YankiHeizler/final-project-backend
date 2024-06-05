@@ -3,7 +3,9 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getLecTimeTable = asyncHandler(async (req, res) => {
+    console.log('start timetable')
     const LecID = req.id 
+    console.log(LecID)
     
     const optionalHours = {
         '06:00': 0, '07:00': 1, '08:00': 2, '09:00': 3, '10:00': 4, '11:00': 5, '12:00': 6, '13:00': 7,
@@ -48,7 +50,7 @@ exports.getLecTimeTable = asyncHandler(async (req, res) => {
                 lessID: LecTimeTable[i].connLessons[j]._id,
                 connLang: LecTimeTable[i].connLang,
                 backgroundColor: 'orange',
-                lecName: `${LecTimeTable[i].studID.studFName} ${StudentTimeTable[i].studID.studLName}`,
+                lecName: `${LecTimeTable[i].studID.studFName} ${LecTimeTable[i].studID.studLName}`,
                 hour
             }
         }

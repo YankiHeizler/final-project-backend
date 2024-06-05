@@ -4,8 +4,7 @@ const bcrypt = require('bcryptjs')
 
 exports.getStudentTimeTable = asyncHandler(async (req, res) => {
     const studID = req.id 
-    console.log('START')
-    console.log(studID)
+    
     const optionalHours = {
         '06:00': 0, '07:00': 1, '08:00': 2, '09:00': 3, '10:00': 4, '11:00': 5, '12:00': 6, '13:00': 7,
         '14:00': 8, '15:00': 9, '16:00': 10, '17:00': 11, '18:00': 12, '19:00': 13, '20:00': 14, '21:00': 15
@@ -29,10 +28,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
         optionalDates[lastday] = i
         dates.push(lastday)
     }
-    console.log(optionalHours)
-    console.log(optionalDates)
-    console.log(dates)
-    console.log(lessons)
+    
 
     const StudentTimeTable = await ConnectionStudLec.find({studID:studID})
         .populate('connLessons lecID')
@@ -45,13 +41,7 @@ exports.getStudentTimeTable = asyncHandler(async (req, res) => {
             const hour = StudentTimeTable[i].connLessons[j].lessTime
             const dateIndex = optionalDates[date]
             const hourIndex = optionalHours[hour]
-            // console.log(i,j)
-            // console.log(date)
-            // console.log(hour)
-            // console.log(dateIndex)
-            // console.log(hourIndex)
-            // console.log(StudentTimeTable[i].connLang)
-            // console.log(StudentTimeTable[i].lecID.lecLName)
+            
             
             if (dateIndex!=undefined && hourIndex!=undefined) {
             lessons[dateIndex][hourIndex] = {                    

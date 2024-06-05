@@ -102,17 +102,14 @@ exports.protect = asyncHandler(async (req, res, next) => {
   if (!user)
     return next(new AppError(400, 'Please register'))
   req.user = user
-  if (user.studLogin)
+  if (user.studFName)
     req.isStudned = true;
   else
     req.isStudned = false;
-
-  if (req.isStudned)
-    console.log('hello student');
-  else
    
-    req.id = id //to change on req
-    
+  req.id = id //to change on req
+  console.log(id)
+  
   next()
  
 })
