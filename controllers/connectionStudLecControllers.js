@@ -14,7 +14,7 @@ exports.getConnectionStudLec = asyncHandler(async (req, res) => {
 })
 exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
     const connLang = req.body.userDetails.connLang;
-    const studID = res.id;
+    const studID = req.id;
     const lecID = req.body.userDetails.lecID;
 
     const  userDetails  = {connLang,studID,lecID}
@@ -58,8 +58,9 @@ exports.updateConnectionStudLec = asyncHandler(async (req, res) => {
 
 exports.addLesson = asyncHandler(async (req, res) => {
     console.log('sababa')
-    const id = connectionID
+    const id = req.params.connectionID
     const newLessID = req.newLessID
+    console.log('sababa')
 
     const updateConnectionStudLec = await ConnectionStudLec.findByIdAndUpdate(
         { _id: id },
