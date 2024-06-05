@@ -14,7 +14,7 @@ router.route('/:connectionID')
     .post(
         aoutController.protect, 
         lessonsStudLecControllers.createLessonsStudLec,
-        connectionStudLecControllers.updateConnectionStudLec
+        connectionStudLecControllers.addLesson
     )
 
 router.route('/:_id')

@@ -21,6 +21,7 @@ exports.createLessonsStudLec = asyncHandler(async(req, res, next) => {
     
     const newLessonsStudLec = await LessonsStudLec.create({lessDate, lessTime, lessMessage})
     req.newLessID=newLessonsStudLec._id
+    console.log('sababa')
     // res.status(200).json({
     //     status:'success',
     //     newLessonsStudLec,
