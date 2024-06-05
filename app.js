@@ -10,7 +10,7 @@ const bookRouter = require('./routes/bookRouter')
 const studentTimeTableRouter = require('./routes/studendTimeTableRouter')
 const studentLessTimeTableRouter = require('./routes/studentLessTimeTableRouter')
 const lecTimeTableRouter = require('./routes/lecTimeTableRouter')
-// const lecLessTimeTableRouter = require('./routes/lecLessTimeTableRouter')
+const lecLessTimeTableRouter = require('./routes/lecLessTimeTableRouter')
 
 
 const dotenv = require('dotenv')
@@ -35,7 +35,7 @@ app.use('/api/books', bookRouter)
 app.use('/api/studentTimeTable', studentTimeTableRouter)
 app.use('/api/studentLessTimeTable', studentLessTimeTableRouter)
 app.use('/api/lecTimeTable', lecTimeTableRouter)
-// app.use('/api/lecLessTimeTable', lecLessTimeTableRouter)
+app.use('/api/lecLessTimeTable', lecLessTimeTableRouter)
 
 app.use((err, req, res, next) => {
   res.status(500).json({

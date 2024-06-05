@@ -36,7 +36,7 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
         .select("-__v -studID");
       
     
-            for (let i = 0; i < LecLessTimeTable.connLessons.length; j++) {
+            for (let i = 0; i < LecLessTimeTable.connLessons.length; i++) {
                 const date = LecLessTimeTable.connLessons[i].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
                 const hour = LecLessTimeTable.connLessons[i].lessTime
                 const dateIndex = optionalDates[date]
@@ -44,7 +44,7 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
                  
                 if (dateIndex!=undefined && hourIndex!=undefined) {
                 lessons[dateIndex][hourIndex] = {                    
-                    lessID: LecLessTimeTable[i].connLessons[j]._id,
+                    lessID: LecLessTimeTable.connLessons[i]._id,
                     status: 'scheduled',
                     backgroundColor: 'green',
                     hour
