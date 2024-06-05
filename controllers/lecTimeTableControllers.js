@@ -11,6 +11,7 @@ exports.getLecTimeTable = asyncHandler(async (req, res) => {
         '06:00': 0, '07:00': 1, '08:00': 2, '09:00': 3, '10:00': 4, '11:00': 5, '12:00': 6, '13:00': 7,
         '14:00': 8, '15:00': 9, '16:00': 10, '17:00': 11, '18:00': 12, '19:00': 13, '20:00': 14, '21:00': 15
     }
+    console.log(optionalHours)
 
     const optionalDates = {}
     const lessons = Array(5).fill(0).map(arr =>
@@ -30,11 +31,14 @@ exports.getLecTimeTable = asyncHandler(async (req, res) => {
         optionalDates[lastday] = i
         dates.push(lastday)
     }
-    
+    console.log(optionalDates)
 
-    const LecTimeTable = await ConnectionStudLec.find({LecID:LecID})
+    const LecTimeTable = await ConnectionStudLec.find({lecID:LecID})
         .populate('connLessons studID')
         .select("-__v -lecID -connBooks");
+    
+    console.log(LecTimeTable.lecID)
+    console.log(LecTimeTable.studID)
     
 
     for (let i = 0; i < LecTimeTable.length; i++) {
