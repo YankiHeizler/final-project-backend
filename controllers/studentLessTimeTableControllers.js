@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
-    const studID = req.id //to change on req.id
+    const studID = req.id 
     
     const { connectionID } = req.params
     
@@ -61,7 +61,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
             const hour = StudentLessTimeTable[i].connLessons[j].lessTime
             const dateIndex = optionalDates[date]
             const hourIndex = optionalHours[hour]
-            console.log('working')
+            
 
             if (dateIndex!=undefined && hourIndex!=undefined) {
             lessons[dateIndex][hourIndex] = {
