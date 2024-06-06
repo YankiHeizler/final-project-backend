@@ -7,6 +7,7 @@ const Lector = require('../models/lectorModel')
 
 const nodemailer = require('nodemailer');
 const sendEmail = require('./../send_Email')
+const { log } = require('console')
 
 const signToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {
@@ -110,6 +111,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
   req.id = id //to change on req
   
   
+
   next()
  
 })

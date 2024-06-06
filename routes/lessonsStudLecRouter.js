@@ -10,7 +10,7 @@ const router = express.Router()
 router.route('/')
     .get(lessonsStudLecControllers.getLessonsStudLec);
 
-router.route('/:connectionID')   
+router.route('/:connectionID')   //we need yo change controller to check stud ID
     .post(
         aoutController.protect, 
         lessonsStudLecControllers.createLessonsStudLec,
@@ -19,6 +19,11 @@ router.route('/:connectionID')
 
 router.route('/:_id')
     .put(lessonsStudLecControllers.updateStudent)
-    .delete(lessonsStudLecControllers.deleteLessonsStudLec)
+    
 
-module.exports = router
+router.route('/:_id')
+    .delete(aoutController.protect, lessonsStudLecControllers.deleteLessonsStudLec)
+
+
+
+    module.exports = router
