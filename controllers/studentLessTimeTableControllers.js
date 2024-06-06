@@ -5,6 +5,11 @@ const bcrypt = require('bcryptjs')
 exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     const studID = req.id 
     
+    const UserFirstDate = req.body.UserFirstDate 
+        ? new Date(req.body.UserFirstDate)
+        : null; 
+    
+
     const { connectionID } = req.params
     
     const optionalHours = {
@@ -21,7 +26,8 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
         }))
     const dates = []
 
-    let curr = new Date(); // get current date
+    
+    let curr = new Date(UserFirstDate); // get current date
     let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
     dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
     optionalDates[dates[0]] = 0
@@ -75,30 +81,33 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     }
 
 
-    StudentLessTimeTable = await ConnectionStudLec.find({ lecID, studID: { $ne: studID } })
+    // StudentLessTimeTable = await ConnectionStudLec.find({ lecID, studID: { $ne: studID } })
+    //     .populate('connLessons lecID connBooks')
+    //     .select("-__v -studID");
+    
+    
+    // for (let i = 0; i < StudentLessTimeTable.length; i++) {
+    //     for (let j = 0; j < StudentLessTimeTable[i].connLessons.length; j++) {
+    //         const date = StudentLessTimeTable[i].connLessons[j].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
+    //         const hour = StudentLessTimeTable[i].connLessons[j].lessTime
+    //         const dateIndex = optionalDates[date]
+    //         const hourIndex = optionalHours[hour]
+
+    //         if (dateIndex!=undefined && hourIndex!=undefined) {
+    //         lessons[dateIndex][hourIndex] = {
+    //             hour,
+    //             backgroundColor: 'grey',
+    //             status: 'unavailable' 
+    //         }
+    //     }
+    //     }
+    // }
+
+    StudentLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons lecID connBooks')
         .select("-__v -studID");
     
     
-    for (let i = 0; i < StudentLessTimeTable.length; i++) {
-        
-        for (let j = 0; j < StudentLessTimeTable[i].connLessons.length; j++) {
-            
-            const date = StudentLessTimeTable[i].connLessons[j].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
-            const hour = StudentLessTimeTable[i].connLessons[j].lessTime
-            const dateIndex = optionalDates[date]
-            const hourIndex = optionalHours[hour]
-
-            if (dateIndex!=undefined && hourIndex!=undefined) {
-            lessons[dateIndex][hourIndex] = {
-                hour,
-                backgroundColor: 'grey',
-                status: 'unavailable' 
-            }
-        }
-        }
-    }
-
 
     res.status(200).json({
         status: 'success',

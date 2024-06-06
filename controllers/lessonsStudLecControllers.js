@@ -1,4 +1,5 @@
 const LessonsStudLec = require('./../models/lessonStudLecModel')
+const ConnectionStudLec = require("./../models/connectionStudLecModel");
 
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
@@ -28,7 +29,7 @@ exports.createLessonsStudLec = asyncHandler(async(req, res, next) => {
     //     newLessonsStudLec,
     //     newLessID
     // })
-    console.log("1");
+    
     
     next()
 })
@@ -44,10 +45,23 @@ exports.updateStudent = asyncHandler (async (req, res) => {
 })
 
 exports.deleteLessonsStudLec = asyncHandler(async (req, res) =>  {
+    console.log('start del less')
     const {_id} = req.params
+    console.log(_id)
     const deleteLessonsStudLec = await LessonsStudLec.findByIdAndDelete(_id)
+    console.log(_id)
+
+    // for (let i = 0; i < ConnectionStudLec.length; i++) {
+    //     for (let j = 0; j < ConnectionStudLec[i].connLessons.length; j++) {
+    //         if (ConnectionStudLec[i].connLessons[j]==_id) {
+    //             const index = ConnectionStudLec[i].connLessons.indexOf(ConnectionStudLec[i].connLessons[j])
+    //             ConnectionStudLec[i].connLessons.splice(index, 1)
+    //         } 
+    //     }
+    // }
+
     res.status(200).json({
-        status: 'duccess',
+        status: 'success',
         deleteLessonsStudLec
     })
 })
