@@ -4,12 +4,7 @@ const bcrypt = require('bcryptjs')
 
 exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     const studID = req.id 
-    
-    const UserFirstDate = req.body.UserFirstDate 
-        ? new Date(req.body.UserFirstDate)
-        : null; 
-    
-
+    const { UserFirstDate } = req.params
     const { connectionID } = req.params
     
     const optionalHours = {
@@ -27,7 +22,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     const dates = []
 
     
-    if (UserFirstDate!=null) {
+    
         let curr = new Date(UserFirstDate); // get current date
         let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
         dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
@@ -38,19 +33,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
             optionalDates[lastday] = i
             dates.push(lastday)
         }
-    }
-    else {
-        let curr = new Date(); // get current date
-        let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-        dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
-        optionalDates[dates[0]] = 0
-        for (let i = 1; i < 5; i++) {
-            let nextDay = first + i; // last day is the first day + 4
-            let lastday = new Date(curr.setDate(nextDay)).toLocaleDateString('en-GB').replaceAll('/', '.');
-            optionalDates[lastday] = i
-            dates.push(lastday)
-        } 
-    }
+    
 
     let StudentLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons lecID connBooks')
