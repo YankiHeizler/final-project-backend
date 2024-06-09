@@ -78,31 +78,29 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     }
 
 
-    // StudentLessTimeTable = await ConnectionStudLec.find({ lecID, studID: { $ne: studID } })
-    //     .populate('connLessons lecID connBooks')
-    //     .select("-__v -studID");
-    
-    
-    // for (let i = 0; i < StudentLessTimeTable.length; i++) {
-    //     for (let j = 0; j < StudentLessTimeTable[i].connLessons.length; j++) {
-    //         const date = StudentLessTimeTable[i].connLessons[j].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
-    //         const hour = StudentLessTimeTable[i].connLessons[j].lessTime
-    //         const dateIndex = optionalDates[date]
-    //         const hourIndex = optionalHours[hour]
-
-    //         if (dateIndex!=undefined && hourIndex!=undefined) {
-    //         lessons[dateIndex][hourIndex] = {
-    //             hour,
-    //             backgroundColor: 'grey',
-    //             status: 'unavailable' 
-    //         }
-    //     }
-    //     }
-    // }
-
-    StudentLessTimeTable = await ConnectionStudLec.findById(connectionID)
+    StudentLessTimeTable = await ConnectionStudLec.find({ lecID, studID: { $ne: studID } })
         .populate('connLessons lecID connBooks')
         .select("-__v -studID");
+    
+    
+    for (let i = 0; i < StudentLessTimeTable.length; i++) {
+        for (let j = 0; j < StudentLessTimeTable[i].connLessons.length; j++) {
+            const date = StudentLessTimeTable[i].connLessons[j].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
+            const hour = StudentLessTimeTable[i].connLessons[j].lessTime
+            const dateIndex = optionalDates[date]
+            const hourIndex = optionalHours[hour]
+
+            if (dateIndex!=undefined && hourIndex!=undefined) {
+            lessons[dateIndex][hourIndex] = {
+                hour,
+                backgroundColor: 'grey',
+                status: 'unavailable' 
+            }
+        }
+        }
+    }
+
+    
     
     
 
