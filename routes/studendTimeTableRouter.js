@@ -4,9 +4,8 @@ const studentTimeTableControllers = require('../controllers/studentTimeTableCont
 const aoutController = require("./../controllers/aoutController")
 
 const router = express.Router()
-
-    
-router.route('/')
+  
+router.route('/:UserFirstDate')
     .get(aoutController.protect, studentTimeTableControllers.getStudentTimeTable); 
 
 module.exports = router
