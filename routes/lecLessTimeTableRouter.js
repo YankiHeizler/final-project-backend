@@ -7,7 +7,7 @@ const router = express.Router();
 
 console.log('i m here')
 
-router.route('/:connectionID') //connectionID is _id of MongoDB for connection, we get it after click on connection in screen befor
+router.route('/:connectionID/:UserFirstDate') //connectionID is _id of MongoDB for connection, we get it after click on connection in screen befor
     .get(aoutController.protect, lecLessTimeTableControllers.getLessLecTimeTable);
     
 
