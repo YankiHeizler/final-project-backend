@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcryptjs')
 
 exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
-    
+    const { UserFirstDate } = req.params
     const { connectionID } = req.params
     
     const optionalHours = {
@@ -14,13 +14,15 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
     //enum status = [  'scheduled', 'not scheduled']
 
     const optionalDates = {}
+    
     const lessons = Array(5).fill(0).map(arr =>
         Array(16).fill(0).map((cell, i) => {
             return { hour: Object.keys(optionalHours)[i], backgroundColor: 'grey', status: 'not scheduled' }
         }))
+    
     const dates = []
 
-    let curr = new Date(); // get current date
+    let curr = new Date(UserFirstDate); // get current date
     let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
     dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
     optionalDates[dates[0]] = 0
@@ -34,23 +36,22 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
     const LecLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons studID connBooks')
         .select("-__v -studID");
-      
     
-            for (let i = 0; i < LecLessTimeTable.connLessons.length; i++) {
-                const date = LecLessTimeTable.connLessons[i].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
-                const hour = LecLessTimeTable.connLessons[i].lessTime
-                const dateIndex = optionalDates[date]
-                const hourIndex = optionalHours[hour]
+        for (let i = 0; i < LecLessTimeTable.connLessons.length; i++) {
+            const date = LecLessTimeTable.connLessons[i].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
+            const hour = LecLessTimeTable.connLessons[i].lessTime
+            const dateIndex = optionalDates[date]
+            const hourIndex = optionalHours[hour]
                  
-                if (dateIndex!=undefined && hourIndex!=undefined) {
-                lessons[dateIndex][hourIndex] = {                    
-                    lessID: LecLessTimeTable.connLessons[i]._id,
-                    status: 'scheduled',
-                    backgroundColor: 'green',
-                    hour
+            if (dateIndex!=undefined && hourIndex!=undefined) {
+            lessons[dateIndex][hourIndex] = {                    
+                lessID: LecLessTimeTable.connLessons[i]._id,
+                status: 'scheduled',
+                backgroundColor: 'green',
+                hour
                 }
             }
-            }
+        }
         
     res.status(200).json({
         status: 'success',
