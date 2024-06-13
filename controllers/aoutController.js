@@ -92,16 +92,22 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
 })
 
 exports.protect = asyncHandler(async (req, res, next) => {
+  if(req.headers.cookie == undefined)
+    return res.status(403).json("login");
   const token = req.headers.cookie.split('=')[1]
-  if (!token) return next(new AppError(403, 'Please login'))
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-  if (!decoded) return next(new AppError(403, 'Please login'))
-  const {id} = decoded
+  if (!token) 
+    return res.status(403).json("login");
+    const { exp } = jwt.decode(token);
+  if (Date.now() >= exp * 1000) {
+    return res.status(403).json("login");
+  }
+  const decoded = await promisify(jwt.verify(token, process.env.JWT_SECRET))
+  if (!decoded)     return res.status(403);
   let user = await Lector.findById(id)
   if (!user) 
     user = await Student.findById(id)
   if (!user)
-    return next(new AppError(400, 'Please login'))
+    return res.status(403).json("login");
   req.user = user
   if (user.studFName)
     req.isStudned = true;
