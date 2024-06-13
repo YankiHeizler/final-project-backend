@@ -99,10 +99,10 @@ exports.protect = asyncHandler(async (req, res, next) => {
   else
     req.isStudned = false;
 
-  if (req.isStudned)
-    console.log('hello student');
-  else
-    console.log('bad teacher');
+  // if (req.isStudned)
+  //   console.log('hello student');
+  // else
+  //   console.log('bad teacher');
   next()
 })
 

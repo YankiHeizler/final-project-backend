@@ -15,9 +15,9 @@ exports.getConnectionStudLec = asyncHandler(async (req, res) => {
 });
 
 exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
-  const connLang = req.body.connLang;
-  const studID = req.body.studID;
-  const lecID = req.body.lecID;
+  const connLang = req.body.userDetails.connLang;
+  const studID = req.body.userDetails.studID;
+  const lecID = req.body.userDetails.lecID;
 
   const connection = await ConnectionStudLec.findOne({
     studID, lecID, connLang
@@ -33,7 +33,7 @@ exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
   );
   res.status(200).json({
     status: "success",
-    newConnectionStudLec,
+    newConnectionStudLe
   });
 });
 
