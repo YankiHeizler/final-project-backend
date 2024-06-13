@@ -32,6 +32,8 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
         optionalDates[lastday] = i
         dates.push(lastday)
     }
+    let todayDate = new Date()
+    
 
     const LecLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons studID connBooks')
@@ -43,12 +45,13 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
             const dateIndex = optionalDates[date]
             const hourIndex = optionalHours[hour]
                  
-            if (dateIndex!=undefined && hourIndex!=undefined) {
+            if (dateIndex!=undefined && hourIndex!=undefined && LecLessTimeTable.connLessons[i].lessDate>=todayDate) {
             lessons[dateIndex][hourIndex] = {                    
                 lessID: LecLessTimeTable.connLessons[i]._id,
                 status: 'scheduled',
                 backgroundColor: 'green',
-                hour
+                hour,
+                lessMessage: LecLessTimeTable.connLessons[i].lessMessage
                 }
             }
         }

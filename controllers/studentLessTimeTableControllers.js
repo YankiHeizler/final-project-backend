@@ -23,17 +23,17 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
 
     
     
-        let curr = new Date(UserFirstDate); // get current date
-        let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-        dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
-        optionalDates[dates[0]] = 0
-        for (let i = 1; i < 5; i++) {
-            let nextDay = first + i; // last day is the first day + 4
-            let lastday = new Date(curr.setDate(nextDay)).toLocaleDateString('en-GB').replaceAll('/', '.');
-            optionalDates[lastday] = i
-            dates.push(lastday)
-        }
-    
+    let curr = new Date(UserFirstDate); // get current date
+    let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+    dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
+    optionalDates[dates[0]] = 0
+    for (let i = 1; i < 5; i++) {
+        let nextDay = first + i; // last day is the first day + 4
+        let lastday = new Date(curr.setDate(nextDay)).toLocaleDateString('en-GB').replaceAll('/', '.');
+        optionalDates[lastday] = i
+        dates.push(lastday)
+    }
+    let todayDate = new Date()
 
     let StudentLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons lecID connBooks')
@@ -66,12 +66,13 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
             const hourIndex = optionalHours[hour]
             
 
-            if (dateIndex!=undefined && hourIndex!=undefined) {
+            if (dateIndex!=undefined && hourIndex!=undefined && StudentLessTimeTable[i].connLessons[j].lessDate>=todayDate) {
             lessons[dateIndex][hourIndex] = {
                 lessID: StudentLessTimeTable[i]._id == connectionID ? StudentLessTimeTable[i].connLessons[j]._id : 'Null',
                 hour,
                 backgroundColor: StudentLessTimeTable[i]._id == connectionID ? 'green' : 'grey',
-                status: StudentLessTimeTable[i]._id == connectionID ? 'already scheduled' : 'unavailable'
+                status: StudentLessTimeTable[i]._id == connectionID ? 'already scheduled' : 'unavailable',
+                lessMessage: StudentLessTimeTable[i]._id == connectionID ? StudentLessTimeTable[i].connLessons[j].lessMessage :'Null' 
             }
         }
         }
