@@ -5,6 +5,10 @@ const {promisify} = require('util')
 const Student = require('./../models/studentModel')
 const Lector = require('../models/lectorModel')
 
+const nodemailer = require('nodemailer');
+const sendEmail = require('./../send_Email')
+const { log } = require('console')
+
 const signToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {
       expiresIn: "3h"
@@ -78,32 +82,46 @@ exports.lecRegister = asyncHandler(async(req, res, next)=>{
 
     const newLector = await Lector.create(req.body.userDetails);
     createSendToken(newLector, 201 , res)
+    await sendEmail({
+      to: lecEmail,
+      subject: 'Welcome to Our Website',
+      text: '',
+      html: `<h1>Welcome lector ${lecNema}</h1><p>Thank you for registering to LearnLink!</p>`
+      })
+
 })
 
-
-
 exports.protect = asyncHandler(async (req, res, next) => {
+  if(req.headers.cookie == undefined)
+    return res.status(403).json("login");
   const token = req.headers.cookie.split('=')[1]
-  if (!token) return next(new AppError(403, 'Please login '))
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-  if (!decoded) return next(new AppError(403, 'Please login '))
-  const {id} = decoded
+  if (!token) 
+    return res.status(403).json("login");
+    const { exp } = jwt.decode(token);
+  if (Date.now() >= exp * 1000) {
+    return res.status(403).json("login");
+  }
+  const decoded = await promisify(jwt.verify(token, process.env.JWT_SECRET))
+  if (!decoded)     return res.status(403);
   let user = await Lector.findById(id)
   if (!user) 
     user = await Student.findById(id)
   if (!user)
-    return next(new AppError(400, 'Please register'))
+    return res.status(403).json("login");
   req.user = user
-  if (user.studLogin)
+  if (user.studFName)
     req.isStudned = true;
   else
     req.isStudned = false;
+  
+
+  req.id = id //to change on req
+  
 
   // if (req.isStudned)
   //   console.log('hello student');
   // else
   //   console.log('bad teacher');
   next()
+ 
 })
-
-

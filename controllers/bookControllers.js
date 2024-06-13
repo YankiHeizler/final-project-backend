@@ -3,7 +3,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs"); //מש זה?????
 
 exports.getBook = asyncHandler(async (req, res) => {
-  const { filter } = req.query;
+  const  filter  = req.query;
   const books = await Book.find(filter);
   res.status(200).json({
     status: "success",
@@ -37,7 +37,7 @@ exports.deleteBook = asyncHandler(async (req, res) => {
   const { _id } = req.params;
   const deleteBook = await Book.findByIdAndDelete(_id);
   res.status(200).json({
-    status: "duccess",
+    status: "success",
     deleteBook,
   });
 });
