@@ -97,13 +97,13 @@ exports.protect = asyncHandler(async (req, res, next) => {
   const token = req.headers.cookie.split('=')[1]
   if (!token) 
     return res.status(403).json("login");
-    const { exp } = jwt.decode(token); //зачет тут абразц, это же не часть ифа? 
+     const { exp } = jwt.decode(token);
   if (Date.now() >= exp * 1000) {
     return res.status(403).json("login");
-  } // зачем тут фиг скобки? нет функции сразу ретурн
-  const decoded = await promisify(jwt.verify(token, process.env.JWT_SECRET))
-  console.log('hello')
+  }
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
   if (!decoded)     return res.status(403);
+  const {id} = decoded
   let user = await Lector.findById(id)
   if (!user) 
     user = await Student.findById(id)
@@ -119,6 +119,10 @@ exports.protect = asyncHandler(async (req, res, next) => {
   req.id = id //to change on req
   console.log(id)
 
+  // if (req.isStudned)
+  //   console.log('hello student');
+  // else
+  //   console.log('bad teacher');
   next()
  
 })
