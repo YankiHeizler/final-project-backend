@@ -1,5 +1,10 @@
-const express = require('express')
-const mongoose = require('mongoose');
+const express = require('express') //multer and not only
+// const multer = require('multer') //multer
+// const bodyParser = require('body-parser') //multer
+const mongoose = require('mongoose'); //multer and not only
+
+// const upload = multer({ dest: 'public/' }); //multer
+
 
 const studentRouter = require('./routes/studentsRouter')
 const lessonsStudLecRouter = require('./routes/lessonsStudLecRouter')
@@ -17,14 +22,32 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 dotenv.config()
 
-const app = express()
+const app = express() //multer and not only
 
+// app.use(bodyParser.json()) //multer
 app.use(express.static('public'))
 app.use(express.json())
 app.use(cors({
   origin: ['http://localhost:5173'],
   credentials: true
 }))
+
+// //MULTER. Route for File Upload: Define a route to handle file upload requests (e.g., POST /upload)
+// app.post('/public', upload.single('file'), (req, res) => {
+//   // Access uploaded file details in req.file object (filename, originalname, etc.)
+//   const uploadedFile = req.file;
+
+//   // Save file information to MongoDB (replace with your schema)
+//   const newFile = new File({
+//       filename: uploadedFile.filename,
+//       originalname: uploadedFile.originalname,
+//       // Add other relevant file information
+//   });
+
+//   newFile.save()
+//       .then(() => res.json({ message: 'File uploaded successfully!' }))
+//       .catch(err => res.status(500).json({ error: err.message }));
+// });
 
 app.use('/api/students', studentRouter)
 app.use('/api/lessonsStudLec', lessonsStudLecRouter)
