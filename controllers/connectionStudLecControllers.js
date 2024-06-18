@@ -4,13 +4,24 @@ const bcrypt = require("bcryptjs");
 const AppError = require('./../AppError')
 
 exports.getConnectionStudLec = asyncHandler(async (req, res) => {
-    const studID = req.id
-    const connectionStudLec = await ConnectionStudLec.find({ studID: studID })
+    const ID = req.id //ID of lector or student
+    const connectionStudLec = await ConnectionStudLec.find({studID: ID})
         .populate('connLang connLessons connBooks lecID studID').select("-__v");
-    res.status(200).json({
+    if (connectionStudLec.length>0) {
+       res.status(200).json({
         status: 'success',
         connectionStudLec
-    })
+        }) 
+    }
+    else {
+    const connectionStudLec = await ConnectionStudLec.find({ lecID: ID} )
+        .populate('connLang connLessons connBooks lecID studID').select("-__v")
+        res.status(200).json({
+            status: 'success',
+            connectionStudLec
+            }) 
+    }
+         
 })
 exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
     const connLang = req.body.userDetails.connLang;
@@ -24,7 +35,7 @@ exports.createConnectionStudLec = asyncHandler(async (req, res, next) => {
         lecID: userDetails.lecID,
         connLang: userDetails.connLang
     });
-    console.log('1111');
+    
 
     if (connection) {
         return next(new AppError(403, "connectionStudLec already in the database"));
