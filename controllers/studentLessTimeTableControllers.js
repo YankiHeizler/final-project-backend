@@ -34,6 +34,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
         dates.push(lastday)
     }
     let todayDate = new Date()
+    todayDate.setUTCHours(0,0,0,0)
 
     let StudentLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons lecID connBooks')
