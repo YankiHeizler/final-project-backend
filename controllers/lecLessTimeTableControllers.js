@@ -33,19 +33,22 @@ exports.getLessLecTimeTable = asyncHandler(async (req, res) => {
         dates.push(lastday)
     }
     let todayDate = new Date()
+    todayDate.setUTCHours(0,0,0,0)
+    
     
 
     const LecLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons studID connBooks')
         .select("-__v -studID");
     
+    
         for (let i = 0; i < LecLessTimeTable.connLessons.length; i++) {
             const date = LecLessTimeTable.connLessons[i].lessDate.toLocaleDateString('en-GB').replaceAll('/', '.')
             const hour = LecLessTimeTable.connLessons[i].lessTime
             const dateIndex = optionalDates[date]
             const hourIndex = optionalHours[hour]
-                 
-            if (dateIndex!=undefined && hourIndex!=undefined && LecLessTimeTable.connLessons[i].lessDate>=todayDate) {
+            
+            if (dateIndex!=undefined && hourIndex!=undefined  && LecLessTimeTable.connLessons[i].lessDate>=todayDate) {
             lessons[dateIndex][hourIndex] = {                    
                 lessID: LecLessTimeTable.connLessons[i]._id,
                 status: 'scheduled',
