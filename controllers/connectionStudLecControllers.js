@@ -9,8 +9,8 @@ exports.getConnectionStudLec = asyncHandler(async (req, res) => {
     
     const connectionsOfStudent = await ConnectionStudLec.find({studID: ID})
         .populate('connLang connLessons connBooks lecID studID').select("-__v");
-    console.log(connectionsOfStudent.length)
-    if (connectionsOfStudent.length>0 && connectionsOfStudent.studID!=null) {
+    
+    if (connectionsOfStudent.length>0 && connectionsOfStudent[0].studID!=null) {
         res.status(200).json({
         status: 'success',
         connectionsOfStudent
