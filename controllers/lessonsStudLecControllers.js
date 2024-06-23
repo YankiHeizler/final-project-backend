@@ -34,13 +34,31 @@ exports.createLessonsStudLec = asyncHandler(async(req, res, next) => {
     next()
 })
 
-exports.updateStudent = asyncHandler (async (req, res) => {
+exports.updateLessonsStudLec = asyncHandler (async (req, res) => {
     const {_id} = req.params
     const updatedDetails = req.body
     const updateLessonsStudLec = await LessonsStudLec.findByIdAndUpdate(_id, updatedDetails, {new: true})
     res.status(200).json({
         status: 'success',
         updateLessonsStudLec
+    })
+})
+
+exports.updateLessonsMessages = asyncHandler (async (req, res) => {
+    const {_id} = req.params
+    const newMessage = req.body.lessMessage
+    const existingMessages = await LessonsStudLec.findById(_id)
+          .then(doc => doc.lessMessage);
+    const updatedMessages = [...existingMessages, newMessage]
+    
+    const updateLessonsMessages = await LessonsStudLec.findByIdAndUpdate(
+        _id, 
+        {lessMessage:updatedMessages}, 
+        {new: true}
+    )
+    res.status(200).json({
+        status: 'success',
+        updateLessonsMessages
     })
 })
 
