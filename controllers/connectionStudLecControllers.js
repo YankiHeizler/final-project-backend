@@ -7,22 +7,22 @@ exports.getConnectionStudLec = asyncHandler(async (req, res) => {
     
     const ID = req.id //ID of lector or student
     
-    const connectionsOfStudent = await ConnectionStudLec.find({studID: ID})
+    const connectionStudLec = await ConnectionStudLec.find({studID: ID})
         .populate('connLang connLessons connBooks lecID studID').select("-__v");
     
-    if (connectionsOfStudent.length>0 && connectionsOfStudent[0].studID!=null) {
+    if (connectionStudLec.length>0 && connectionStudLec[0].studID!=null) {
         res.status(200).json({
         status: 'success',
-        connectionsOfStudent
+        connectionStudLec
         }) 
     }
 
     else {
-    const connectionsOfLector = await ConnectionStudLec.find({ lecID: ID} )
+    const connectionStudLec = await ConnectionStudLec.find({ lecID: ID} )
         .populate('connLang connLessons connBooks lecID studID').select("-__v")
         res.status(200).json({
             status: 'success',
-            connectionsOfLector
+            connectionStudLec
             }) 
     }
          
