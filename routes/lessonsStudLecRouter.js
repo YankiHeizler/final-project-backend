@@ -18,7 +18,10 @@ router.route('/:connectionID')   //we need yo change controller to check stud ID
     )
 
 router.route('/:_id')
-    .put(lessonsStudLecControllers.updateStudent)
+    .put(lessonsStudLecControllers.updateLessonsStudLec)
+
+router.route('/messages/:_id')
+    .put(lessonsStudLecControllers.updateLessonsMessages)
     
 
 router.route('/:_id')
