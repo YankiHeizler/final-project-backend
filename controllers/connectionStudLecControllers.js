@@ -4,11 +4,13 @@ const bcrypt = require("bcryptjs");
 const AppError = require('./../AppError')
 
 exports.getConnectionStudLec = asyncHandler(async (req, res) => {
-
+    
     const ID = req.id //ID of lector or student
+   
     const connectionStudLec = await ConnectionStudLec.find({studID: ID})
         .populate('connLang connLessons connBooks lecID studID').select("-__v");
-    if (connectionStudLec.length>0) {
+    
+    if (connectionStudLec.studID!=undefined) {
        res.status(200).json({
         status: 'success',
         connectionStudLec
