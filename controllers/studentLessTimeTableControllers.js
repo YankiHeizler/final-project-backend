@@ -21,6 +21,9 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
         }))
     const dates = []
 
+    let todayDate = new Date()
+    todayDate.setUTCHours(0,0,0,0)
+   
     function subtractDays(date, days) {
         const millisecondsPerDay = 1000 * 60 * 60 * 24;
         return new Date(date.getTime() - days * millisecondsPerDay);
@@ -30,18 +33,23 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
         const millisecondsPerDay = 1000 * 60 * 60 * 24;
         return new Date(date.getTime() + days * millisecondsPerDay);
     }
-      
+     
+    let firstActualDay = null
     let curr = new Date(UserFirstDate); // get current date
     let firstDate = subtractDays(curr, curr.getDay()); // First date of the week
+   
+    if (firstDate>=todayDate) {firstActualDay=0}
     dates.push(firstDate.toLocaleDateString('en-GB').replaceAll('/', '.'))
     optionalDates[dates[0]] = 0
     for (let i = 0; i < 4; i++) {
-        let nextDate = plusDay(firstDate, i + 1); // 
+        let nextDate = plusDay(firstDate, i + 1); 
+        if (firstActualDay==null && nextDate>=todayDate) {firstActualDay=i+1}
         let lastDate = new Date(nextDate).toLocaleDateString('en-GB').replaceAll('/', '.');
         optionalDates[lastDate] = i + 1
         dates.push(lastDate)
     }
     
+
     // let curr = new Date(UserFirstDate); // get current date
     // let first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
     // dates.push(new Date(curr.setDate(first)).toLocaleDateString('en-GB').replaceAll('/', '.'))
@@ -54,8 +62,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     // }
    
     
-    let todayDate = new Date()
-    todayDate.setUTCHours(0,0,0,0)
+    
 
     let StudentLessTimeTable = await ConnectionStudLec.findById(connectionID)
         .populate('connLessons lecID connBooks')
@@ -63,7 +70,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
       
     const lecID = StudentLessTimeTable.lecID._id
    
-    for (let i = 0; i < StudentLessTimeTable.lecID.lecTimeTable.length; i++) {
+    for (let i = firstActualDay; i < StudentLessTimeTable.lecID.lecTimeTable.length; i++) {
         const dayIndex = StudentLessTimeTable.lecID.lecTimeTable[i].day - 1
         for (let j = 0; j < StudentLessTimeTable.lecID.lecTimeTable[i].workinghours.length; j++) {
             const hourIndex = optionalHours[StudentLessTimeTable.lecID.lecTimeTable[i].workinghours[j]]
@@ -75,6 +82,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
             }
         }
     }
+
     StudentLessTimeTable = await ConnectionStudLec.find({ studID: studID })
         .populate('connLessons lecID connBooks')
         .select("-__v -studID");
@@ -87,6 +95,9 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
             const dateIndex = optionalDates[date]
             const hourIndex = optionalHours[hour]
             
+            console.log(StudentLessTimeTable[i]._id)
+            console.log(connectionID)
+
 
             if (dateIndex!=undefined && hourIndex!=undefined && StudentLessTimeTable[i].connLessons[j].lessDate>=todayDate) {
             lessons[dateIndex][hourIndex] = {
@@ -124,7 +135,7 @@ exports.getLessStudentTimeTable = asyncHandler(async (req, res) => {
     }
 
     
-    
+   
     
 
     res.status(200).json({
